@@ -22,9 +22,9 @@ public class GameServiceHandler implements GameService.Iface{
 		loginServerStmt = loginServerDB.createStatement();
 	}
 
-	@Override
+	/*@Override
 	public List<Integer> getId(int select ,int Id){	//get object ID in DB
-		List<Integer> planetsId = new ArrayList<Integer>();
+		List<Integer> Ids = new ArrayList<Integer>();
 		
 		try {
 			switch(select){
@@ -33,7 +33,7 @@ public class GameServiceHandler implements GameService.Iface{
 				loginServerRS = loginServerStmt.executeQuery("SELECT * FROM  planets WHERE system_id = '"+Id+"'");
 				
 				while(loginServerRS.next()){
-				planetsId.add(loginServerRS.getInt("id"));
+					Ids.add(loginServerRS.getInt("id"));
 				}
 				break;
 				
@@ -41,7 +41,15 @@ public class GameServiceHandler implements GameService.Iface{
 				loginServerRS = loginServerStmt.executeQuery("SELECT * FROM  built WHERE planet_id = '"+Id+"'");
 				
 				while(loginServerRS.next()){
-				planetsId.add(loginServerRS.getInt("id"));
+					Ids.add(loginServerRS.getInt("id"));
+				}
+				break;
+			
+			case 3:
+				loginServerRS = loginServerStmt.executeQuery("SELECT * FROM systems");
+				
+				while(loginServerRS.next()){
+					Ids.add(loginServerRS.getInt("id"));
 				}
 				break;
 			default:
@@ -51,7 +59,25 @@ public class GameServiceHandler implements GameService.Iface{
 				logger.catching(e);
 				
 			}
-		return planetsId;
+		return Ids;
+	}*/
+	
+	@Override
+	public List<Integer> getId(String table ,String column, int id){	//get object ID in DB
+		
+		List<Integer> Ids = new ArrayList<Integer>();
+		
+		try {
+			loginServerRS = loginServerStmt.executeQuery("SELECT * FROM '"+table+"'WHERE '"+column+"' = '"+id+"'");
+			
+			while(loginServerRS.next()){
+				Ids.add(loginServerRS.getInt("id"));
+			}
+			} catch (Exception e) {
+				logger.catching(e);
+				
+			}
+		return Ids;
 	}
 
 	@Override
