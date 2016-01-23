@@ -21,64 +21,42 @@ public class GameServiceHandler implements GameService.Iface{
 	public GameServiceHandler(Connection loginServerDB) throws SQLException{
 		loginServerStmt = loginServerDB.createStatement();
 	}
-
-	/*@Override
-	public List<Integer> getId(int select ,int Id){	//get object ID in DB
-		List<Integer> Ids = new ArrayList<Integer>();
-		
-		try {
-			switch(select){
-			case 0: //get planets id
-				
-				loginServerRS = loginServerStmt.executeQuery("SELECT * FROM  planets WHERE system_id = '"+Id+"'");
-				
-				while(loginServerRS.next()){
-					Ids.add(loginServerRS.getInt("id"));
-				}
-				break;
-				
-			case 1: //get buildings id
-				loginServerRS = loginServerStmt.executeQuery("SELECT * FROM  built WHERE planet_id = '"+Id+"'");
-				
-				while(loginServerRS.next()){
-					Ids.add(loginServerRS.getInt("id"));
-				}
-				break;
-			
-			case 3:
-				loginServerRS = loginServerStmt.executeQuery("SELECT * FROM systems");
-				
-				while(loginServerRS.next()){
-					Ids.add(loginServerRS.getInt("id"));
-				}
-				break;
-			default:
-				break;
-			}
-			} catch (Exception e) {
-				logger.catching(e);
-				
-			}
-		return Ids;
-	}*/
 	
 	@Override
-	public List<Integer> getId(String table ,String column, int id){	//get object ID in DB
-		
+	public List<Integer> getAllId(String table, String column){
 		List<Integer> Ids = new ArrayList<Integer>();
-		
-		try {
-			loginServerRS = loginServerStmt.executeQuery("SELECT * FROM '"+table+"'WHERE '"+column+"' = '"+id+"'");
+		logger.info(table+column);
 			
-			while(loginServerRS.next()){
-				Ids.add(loginServerRS.getInt("id"));
-			}
+			try {
+				loginServerRS = loginServerStmt.executeQuery("SELECT * FROM "+table+" WHERE "+column+"");
+				
+				while(loginServerRS.next()){
+					Ids.add(loginServerRS.getInt("id"));
+				}
 			} catch (Exception e) {
 				logger.catching(e);
-				
 			}
 		return Ids;
 	}
+	
+	
+	@Override
+	public List<Integer> getSelectedId(String table ,String column, int id){	//get object ID in DB
+		
+		List<Integer> Ids = new ArrayList<Integer>();
+		
+			try {
+				loginServerRS = loginServerStmt.executeQuery("SELECT * FROM "+table+" WHERE "+column+" = "+id+"");
+				
+				while(loginServerRS.next()){
+					Ids.add(loginServerRS.getInt("id"));
+				}
+			} catch (Exception e) {
+				logger.catching(e);
+			}
+		return Ids;
+	}
+	
 
 	@Override
 	public PlanetInfo getPlanetInfo(int Id) throws TException {
@@ -95,7 +73,4 @@ public class GameServiceHandler implements GameService.Iface{
 		}
 		return null;
 	}
-	
-	
-
 }
