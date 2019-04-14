@@ -19,7 +19,7 @@ public class DatabaseServer {
 		try {
 			
 			//MySQL
-			Connection loginServerDB = DriverManager.getConnection("jdbc:mysql://localhost:3306/GameServer", "root", "***REMOVED***");
+			Connection loginServerDB = DriverManager.getConnection("jdbc:mysql://localhost:3306/GameServer", "root", "");
 			
 			//rpc thrift
 			GameService.Processor<GameServiceHandler> processor = new GameService.Processor<GameServiceHandler>(new GameServiceHandler(loginServerDB));
